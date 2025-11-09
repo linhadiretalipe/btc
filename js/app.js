@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function initializeApp() {
+    setupLanguage();
     setupTabs();
     setupSearch();
     setupTerminal();
@@ -16,6 +17,73 @@ function initializeApp() {
     renderCommands('rede', 'redeCommands');
     renderCommands('mineracao', 'mineracaoCommands');
     renderCommands('utilitarios', 'utilitariosCommands');
+    
+    // Apply translations
+    applyTranslations();
+}
+
+// Language Setup
+function setupLanguage() {
+    const languageSelect = document.getElementById('languageSelect');
+    if (!languageSelect) return;
+    
+    // Set current language
+    languageSelect.value = getCurrentLanguage();
+    
+    // Add change event listener
+    languageSelect.addEventListener('change', (e) => {
+        const newLang = e.target.value;
+        setCurrentLanguage(newLang);
+        currentLanguage = newLang;
+        applyTranslations();
+        // Re-render commands to update translations
+        renderAllCommands();
+        renderCommands('blockchain', 'blockchainCommands');
+        renderCommands('wallet', 'walletCommands');
+        renderCommands('transacoes', 'transacoesCommands');
+        renderCommands('rede', 'redeCommands');
+        renderCommands('mineracao', 'mineracaoCommands');
+        renderCommands('utilitarios', 'utilitariosCommands');
+    });
+}
+
+// Apply translations to all elements
+function applyTranslations() {
+    // Translate elements with data-translate attribute
+    document.querySelectorAll('[data-translate]').forEach(element => {
+        const key = element.getAttribute('data-translate');
+        const translation = t(key);
+        if (translation) {
+            // Check if translation contains HTML tags
+            if (translation.includes('<strong>') || translation.includes('<i>') || translation.includes('<span>')) {
+                // Set innerHTML for elements with HTML tags
+                element.innerHTML = translation;
+            } else {
+                // Use textContent for plain text
+                element.textContent = translation;
+            }
+        }
+    });
+    
+    // Translate placeholders
+    document.querySelectorAll('[data-translate-placeholder]').forEach(element => {
+        const key = element.getAttribute('data-translate-placeholder');
+        const translation = t(key);
+        if (translation) {
+            element.placeholder = translation;
+        }
+    });
+    
+    // Update HTML lang attribute
+    const lang = getCurrentLanguage();
+    document.documentElement.lang = lang;
+    
+    // Update page title and meta description
+    document.title = t('title');
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+        metaDesc.content = t('subtitle');
+    }
 }
 
 // Tab Navigation
@@ -60,16 +128,15 @@ function setupSearch() {
             // Check if command exists and show hint
             if (commandCategoryMap[searchTerm]) {
                 const category = commandCategoryMap[searchTerm];
-                const categoryNames = {
-                    blockchain: 'Blockchain',
-                    wallet: 'Carteira',
-                    transacoes: 'Transações',
-                    rede: 'Rede',
-                    mineracao: 'Mineração',
-                    utilitarios: 'Utilitários'
-                };
                 
-                searchHint.textContent = `💡 Aguardando 2 segundos para auto-selecionar a aba: ${categoryNames[category]}`;
+                const categoryNameKey = category === 'blockchain' ? 'tab_blockchain' :
+                                       category === 'wallet' ? 'tab_wallet' :
+                                       category === 'transacoes' ? 'tab_transacoes' :
+                                       category === 'rede' ? 'tab_rede' :
+                                       category === 'mineracao' ? 'tab_mineracao' :
+                                       category === 'utilitarios' ? 'tab_utilitarios' : 'tab_referencia';
+                const categoryName = t(categoryNameKey);
+                searchHint.textContent = `${t('search_hint_waiting')} ${categoryName}`;
                 searchHint.style.display = 'block';
                 searchHint.style.color = '#d97706';
                 
@@ -78,11 +145,11 @@ function setupSearch() {
                     const tabButton = document.querySelector(`[data-tab="${category}"]`);
                     if (tabButton) {
                         tabButton.click();
-                        showToast(`Comando encontrado na aba: ${categoryNames[category]}`, 'success');
+                        showToast(`${t('toast_command_found')} ${categoryName}`, 'success');
                     }
                 }, 2000);
             } else if (searchTerm.length > 2) {
-                searchHint.textContent = '⚠️ Comando não reconhecido. Use a busca para filtrar os comandos abaixo.';
+                searchHint.textContent = t('search_hint_not_found');
                 searchHint.style.display = 'block';
                 searchHint.style.color = '#d97706';
             }
@@ -123,7 +190,7 @@ function filterCommands(searchTerm) {
         }
     });
     
-    if (!found && searchTerm.length > 2) {
+        if (!found && searchTerm.length > 2) {
         // Show message if no commands found
         const commandsList = activeTab.querySelector('.commands-list, .commands-grid');
         if (commandsList && !commandsList.querySelector('.no-results')) {
@@ -132,7 +199,7 @@ function filterCommands(searchTerm) {
             noResults.style.padding = '2rem';
             noResults.style.textAlign = 'center';
             noResults.style.color = '#6b7280';
-            noResults.innerHTML = '<p>Nenhum comando encontrado para: <strong>' + searchTerm + '</strong></p>';
+            noResults.innerHTML = `<p>${t('no_results')} <strong>${searchTerm}</strong></p>`;
             commandsList.appendChild(noResults);
         }
     } else {
@@ -176,7 +243,11 @@ function setupTerminal() {
     
     clearHistoryBtn.addEventListener('click', () => {
         const terminalOutput = document.getElementById('terminalOutput');
-        terminalOutput.innerHTML = '<div class="terminal-empty"><i class="fas fa-terminal"></i><p>Nenhum comando executado ainda</p><p class="empty-hint">Digite um comando acima e clique em Executar</p></div>';
+        const emptyDiv = document.createElement('div');
+        emptyDiv.className = 'terminal-empty';
+        emptyDiv.innerHTML = `<i class="fas fa-terminal"></i><p data-translate="terminal_empty">${t('terminal_empty')}</p><p class="empty-hint" data-translate="terminal_empty_hint">${t('terminal_empty_hint')}</p>`;
+        terminalOutput.innerHTML = '';
+        terminalOutput.appendChild(emptyDiv);
         clearHistoryBtn.style.display = 'none';
     });
     
@@ -201,7 +272,7 @@ function executeCommand() {
     const filter = jqFilter.value.trim();
     
     if (!command) {
-        showToast('Por favor, digite um comando', 'error');
+        showToast(t('toast_command_error'), 'error');
         return;
     }
     
@@ -229,7 +300,7 @@ function executeCommand() {
         try {
             filteredResponse = applyJqFilter(response, filter);
         } catch (error) {
-            showToast('Erro ao aplicar filtro jq: ' + error.message, 'error');
+            showToast(t('toast_jq_error') + ' ' + error.message, 'error');
             filteredResponse = { error: 'Filtro jq inválido: ' + error.message };
         }
     }
@@ -541,7 +612,7 @@ function createCommandCard(cmd) {
             const paramRequired = document.createElement('span');
             if (param.required) {
                 paramRequired.className = 'parameter-required';
-                paramRequired.textContent = 'obrigatório';
+                paramRequired.textContent = t('parameter_required');
             }
             
             const paramDesc = document.createElement('div');
@@ -566,7 +637,7 @@ function createCommandCard(cmd) {
         exampleDiv.className = 'example-section';
         
         const exampleTitle = document.createElement('strong');
-        exampleTitle.textContent = 'Exemplo:';
+        exampleTitle.textContent = t('example_label');
         
         const exampleCommand = document.createElement('div');
         exampleCommand.className = 'example-command';
@@ -584,7 +655,7 @@ function createCommandCard(cmd) {
         if (cmd.responseFields && typeof cmd.example.response === 'object' && cmd.example.response !== null && Object.keys(cmd.responseFields).length > 0) {
             const fieldsBtn = document.createElement('button');
             fieldsBtn.className = 'fields-explanation-btn';
-            fieldsBtn.innerHTML = '<i class="fas fa-book-open"></i> 📚 Explicar Campos JSON (Aprendizado)';
+            fieldsBtn.innerHTML = `<i class="fas fa-book-open"></i> ${t('explain_fields_btn')}`;
             fieldsBtn.type = 'button';
             
             const fieldsExplanation = document.createElement('div');
@@ -593,12 +664,12 @@ function createCommandCard(cmd) {
             
             const fieldsTitle = document.createElement('h4');
             fieldsTitle.className = 'fields-title';
-            fieldsTitle.innerHTML = '<i class="fas fa-graduation-cap"></i> Explicação Detalhada dos Campos da Resposta JSON';
+            fieldsTitle.innerHTML = `<i class="fas fa-graduation-cap"></i> ${t('fields_explanation_title')}`;
             
             const fieldsIntro = document.createElement('p');
             fieldsIntro.className = 'fields-intro';
             fieldsIntro.style.cssText = 'color: var(--gray-600); margin-bottom: 1.5rem; font-size: 0.9375rem; line-height: 1.6;';
-            fieldsIntro.textContent = 'Esta seção explica cada campo retornado na resposta JSON. Use estas explicações para entender o significado e propósito de cada atributo, facilitando o aprendizado e uso dos comandos Bitcoin-CLI.';
+            fieldsIntro.textContent = t('fields_explanation_intro');
             
             const fieldsList = document.createElement('div');
             fieldsList.className = 'fields-list';
@@ -648,14 +719,14 @@ function createCommandCard(cmd) {
             fieldsBtn.addEventListener('click', () => {
                 if (fieldsExplanation.style.display === 'none') {
                     fieldsExplanation.style.display = 'block';
-                    fieldsBtn.innerHTML = '<i class="fas fa-chevron-up"></i> Ocultar Explicações';
+                    fieldsBtn.innerHTML = `<i class="fas fa-chevron-up"></i> ${t('hide_explanations')}`;
                     // Smooth scroll to explanation
                     setTimeout(() => {
                         fieldsExplanation.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                     }, 100);
                 } else {
                     fieldsExplanation.style.display = 'none';
-                    fieldsBtn.innerHTML = '<i class="fas fa-book-open"></i> 📚 Explicar Campos JSON (Aprendizado)';
+                    fieldsBtn.innerHTML = `<i class="fas fa-book-open"></i> ${t('explain_fields_btn')}`;
                 }
             });
             
