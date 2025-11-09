@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual Bitcoin-CLI</title>
+    <meta name="description" content="Guia completo de comandos do Bitcoin Core v30.0.0 RPC com exemplos práticos em JSON">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <i class="fab fa-bitcoin logo-icon"></i>
+                    <h1>Manual Bitcoin-CLI</h1>
+                </div>
+                <p class="header-subtitle">Guia completo de comandos do Bitcoin Core v30.0.0 RPC com exemplos práticos em JSON</p>
+                <span class="version-badge">v30.0.0 - 180+ Comandos</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Search Bar -->
+    <div class="search-container">
+        <div class="container">
+            <div class="search-box">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="searchInput" placeholder="Buscar comando... (ex: getblockchaininfo, sendtoaddress)" class="search-input">
+                <button id="clearSearch" class="clear-search" style="display: none;">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="searchHint" class="search-hint" style="display: none;"></div>
+        </div>
+    </div>
+
+    <!-- Info Banner -->
+    <div class="container">
+        <div class="info-banner">
+            <i class="fas fa-info-circle"></i>
+            <div>
+                <strong>Como usar este manual</strong>
+                <p>Manual completo do Bitcoin Core v30.0.0 RPC com 180+ comandos documentados. Use o <strong>Terminal Interativo</strong> para testar comandos com dados simulados e filtros jq. A aba <strong>Referência</strong> lista todos os comandos disponíveis organizados por categoria.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="container">
+        <div class="tabs-container">
+            <button class="tab-btn active" data-tab="terminal">
+                <i class="fas fa-terminal"></i> Terminal
+            </button>
+            <button class="tab-btn" data-tab="referencia">
+                <i class="fas fa-book"></i> Referência
+            </button>
+            <button class="tab-btn" data-tab="blockchain">
+                <i class="fas fa-link"></i> Blockchain
+            </button>
+            <button class="tab-btn" data-tab="wallet">
+                <i class="fas fa-wallet"></i> Carteira
+            </button>
+            <button class="tab-btn" data-tab="transacoes">
+                <i class="fas fa-exchange-alt"></i> Transações
+            </button>
+            <button class="tab-btn" data-tab="rede">
+                <i class="fas fa-network-wired"></i> Rede
+            </button>
+            <button class="tab-btn" data-tab="mineracao">
+                <i class="fas fa-hammer"></i> Mineração
+            </button>
+            <button class="tab-btn" data-tab="utilitarios">
+                <i class="fas fa-tools"></i> Utilitários
+            </button>
+        </div>
+    </div>
+
+    <!-- Tab Content -->
+    <main class="container">
+        <!-- Terminal Tab -->
+        <div id="terminal" class="tab-content active">
+            <div class="terminal-section">
+                <h2 class="section-title">
+                    <i class="fas fa-terminal"></i> Terminal Interativo Bitcoin-CLI
+                </h2>
+                <p class="section-description">Execute comandos bitcoin-cli simulados e filtre resultados usando sintaxe jq. Os dados são simulados para fins de demonstração.</p>
+
+                <!-- Command Input -->
+                <div class="command-input-section">
+                    <h3>Executar Comando</h3>
+                    <div class="command-input-group">
+                        <div class="command-prefix">bitcoin-cli</div>
+                        <input type="text" id="commandInput" placeholder="getblockchaininfo" class="command-input">
+                        <button id="executeBtn" class="execute-btn">
+                            <i class="fas fa-play"></i> Executar
+                        </button>
+                    </div>
+                    <div class="jq-filter-group">
+                        <label>
+                            <i class="fas fa-filter"></i> Filtro jq (opcional)
+                        </label>
+                        <input type="text" id="jqFilter" placeholder=". | {blocks, difficulty}" class="jq-filter-input">
+                    </div>
+                    <div class="examples-section">
+                        <p>Exemplos rápidos:</p>
+                        <div class="examples-grid">
+                            <button class="example-btn" data-cmd="getblockchaininfo" data-filter=".blocks">getblockchaininfo | .blocks</button>
+                            <button class="example-btn" data-cmd="getwalletinfo" data-filter=".balance">getwalletinfo | .balance</button>
+                            <button class="example-btn" data-cmd="listunspent" data-filter="[.[] | {txid, amount}]">listunspent | filtrar campos</button>
+                            <button class="example-btn" data-cmd="getnetworkinfo" data-filter=".connections">getnetworkinfo | .connections</button>
+                            <button class="example-btn" data-cmd="getmininginfo" data-filter="{blocks, difficulty}">getmininginfo | campos específicos</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- jq Guide -->
+                <div class="jq-guide">
+                    <h3>
+                        <i class="fas fa-filter"></i> Guia de Filtros jq
+                    </h3>
+                    <div class="jq-examples-grid">
+                        <div class="jq-example">
+                            <code>.</code>
+                            <p>Retorna o objeto completo</p>
+                        </div>
+                        <div class="jq-example">
+                            <code>.campo</code>
+                            <p>Extrai um campo específico</p>
+                        </div>
+                        <div class="jq-example">
+                            <code>.campo1, .campo2</code>
+                            <p>Múltiplos campos</p>
+                        </div>
+                        <div class="jq-example">
+                            <code>{ campo1, campo2 }</code>
+                            <p>Novo objeto com campos</p>
+                        </div>
+                        <div class="jq-example">
+                            <code>.[]</code>
+                            <p>Itera sobre array</p>
+                        </div>
+                        <div class="jq-example">
+                            <code>[.[] | .campo]</code>
+                            <p>Mapeia campo de array</p>
+                        </div>
+                        <div class="jq-example">
+                            <code>.[] | select(.amount > 0.5)</code>
+                            <p>Filtra por condição</p>
+                        </div>
+                        <div class="jq-example">
+                            <code>length</code>
+                            <p>Tamanho de array/objeto</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Terminal Output -->
+                <div class="terminal-output-section">
+                    <div class="terminal-header">
+                        <h3>
+                            <i class="fas fa-code"></i> Saída do Terminal
+                        </h3>
+                        <button id="clearHistory" class="clear-btn" style="display: none;">
+                            <i class="fas fa-trash"></i> Limpar
+                        </button>
+                    </div>
+                    <div id="terminalOutput" class="terminal-output">
+                        <div class="terminal-empty">
+                            <i class="fas fa-terminal"></i>
+                            <p>Nenhum comando executado ainda</p>
+                            <p class="empty-hint">Digite um comando acima e clique em Executar</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Referência Tab -->
+        <div id="referencia" class="tab-content">
+            <div class="reference-section">
+                <h2 class="section-title">Referência Completa</h2>
+                <p class="section-description">Todos os comandos Bitcoin-CLI organizados por categoria</p>
+                <div id="referenceContent" class="commands-list"></div>
+            </div>
+        </div>
+
+        <!-- Blockchain Tab -->
+        <div id="blockchain" class="tab-content">
+            <div class="category-section">
+                <div class="category-header">
+                    <span class="category-badge">Bitcoin Core v30.0.0</span>
+                    <p>Comandos para consultar e gerenciar a blockchain local</p>
+                </div>
+                <div id="blockchainCommands" class="commands-list"></div>
+            </div>
+        </div>
+
+        <!-- Wallet Tab -->
+        <div id="wallet" class="tab-content">
+            <div class="category-section">
+                <div class="category-header">
+                    <span class="category-badge">Bitcoin Core v30.0.0</span>
+                    <p>Comandos para gerenciar carteiras, endereços e fundos. Requer carteira carregada.</p>
+                </div>
+                <div id="walletCommands" class="commands-list"></div>
+            </div>
+        </div>
+
+        <!-- Transações Tab -->
+        <div id="transacoes" class="tab-content">
+            <div class="category-section">
+                <div class="category-header">
+                    <span class="category-badge">Transações & PSBT</span>
+                    <p>Comandos para criar, assinar e enviar transações (inclui PSBT)</p>
+                </div>
+                <div id="transacoesCommands" class="commands-list"></div>
+            </div>
+        </div>
+
+        <!-- Rede Tab -->
+        <div id="rede" class="tab-content">
+            <div class="category-section">
+                <div class="category-header">
+                    <span class="category-badge">Rede P2P</span>
+                    <p>Comandos para gerenciar conexões de rede e peers</p>
+                </div>
+                <div id="redeCommands" class="commands-list"></div>
+            </div>
+        </div>
+
+        <!-- Mineração Tab -->
+        <div id="mineracao" class="tab-content">
+            <div class="category-section">
+                <div class="category-header">
+                    <span class="category-badge">Mineração</span>
+                    <p>Comandos para mineração e geração de blocos (regtest)</p>
+                </div>
+                <div id="mineracaoCommands" class="commands-list"></div>
+            </div>
+        </div>
+
+        <!-- Utilitários Tab -->
+        <div id="utilitarios" class="tab-content">
+            <div class="category-section">
+                <div class="category-header">
+                    <span class="category-badge">Utilitários</span>
+                    <p>Utilitários, controle do servidor, validação e gerenciamento</p>
+                </div>
+                <div id="utilitariosCommands" class="commands-list"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>Manual Bitcoin-CLI - Guia de Referência Completo</p>
+            <p class="footer-subtitle">Bitcoin Core v30.0.0 RPC - 180+ Comandos Documentados</p>
+            <p class="footer-details">Inclui: Blockchain, Wallet, Transactions, PSBT, Network, Mining, Control, ZMQ</p>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast hidden"></div>
+
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
