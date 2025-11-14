@@ -8,6 +8,7 @@ function initializeApp() {
     setupTabs();
     setupSearch();
     setupTerminal();
+    setupDonation();
     renderAllCommands();
     
     // Load commands for each category
@@ -738,6 +739,39 @@ function createCommandCard(cmd) {
     }
     
     return card;
+}
+
+// Donation Setup
+function setupDonation() {
+    const lnurl = 'lnurl1dp68gurn8ghj7ampd3kx2ar0veekzar0wd5xjtnrdakj7tnhv4kxctttdehhwm30d3h82unvwqhkjmnpdejhwetpd36xsvfsjrn2rl';
+    const qrImage = document.getElementById('donationQRCode');
+    const copyBtn = document.getElementById('copyLnurlBtn');
+    const lnurlCode = document.getElementById('lnurlCode');
+    
+    // Set alt text for QR code image
+    if (qrImage) {
+        qrImage.alt = t('donation_scan') || 'Lightning Network QR Code';
+    }
+    
+    // Copy LNURL functionality
+    if (copyBtn && lnurlCode) {
+        copyBtn.addEventListener('click', () => {
+            const text = lnurlCode.textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast(t('donation_copied'), 'success');
+                // Visual feedback
+                copyBtn.innerHTML = '<i class="fas fa-check"></i>';
+                copyBtn.style.background = '#10b981';
+                setTimeout(() => {
+                    copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
+                    copyBtn.style.background = '';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                showToast('Erro ao copiar', 'error');
+            });
+        });
+    }
 }
 
 // Toast Notification

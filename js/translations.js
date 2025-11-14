@@ -88,7 +88,14 @@ const translations = {
         
         // Language Selector
         language: 'Idioma',
-        select_language: 'Selecionar Idioma'
+        select_language: 'Selecionar Idioma',
+        
+        // Donation Section
+        donation_title: 'Ajude a manter este projeto',
+        donation_subtitle: 'Gostou do manual? Considere doar alguns sats via Lightning Network para tomar um café ☕',
+        donation_scan: 'Escaneie com sua carteira Lightning:',
+        donation_note: 'Ou copie o LNURL acima e use na sua carteira Lightning preferida',
+        donation_copied: 'LNURL copiado!'
     },
     
     'en': {
@@ -156,7 +163,14 @@ const translations = {
         toast_command_error: 'Please enter a command',
         toast_jq_error: 'Error applying jq filter:',
         language: 'Language',
-        select_language: 'Select Language'
+        select_language: 'Select Language',
+        
+        // Donation Section
+        donation_title: 'Help maintain this project',
+        donation_subtitle: 'Enjoyed the manual? Consider donating some sats via Lightning Network for a coffee ☕',
+        donation_scan: 'Scan with your Lightning wallet:',
+        donation_note: 'Or copy the LNURL above and use it in your preferred Lightning wallet',
+        donation_copied: 'LNURL copied!'
     },
     
     'es': {
@@ -224,7 +238,14 @@ const translations = {
         toast_command_error: 'Por favor, ingrese un comando',
         toast_jq_error: 'Error al aplicar filtro jq:',
         language: 'Idioma',
-        select_language: 'Seleccionar Idioma'
+        select_language: 'Seleccionar Idioma',
+        
+        // Donation Section
+        donation_title: 'Ayuda a mantener este proyecto',
+        donation_subtitle: '¿Te gustó el manual? Considera donar algunos sats vía Lightning Network para un café ☕',
+        donation_scan: 'Escanea con tu cartera Lightning:',
+        donation_note: 'O copia el LNURL de arriba y úsalo en tu cartera Lightning preferida',
+        donation_copied: '¡LNURL copiado!'
     },
     
     'zh': {
@@ -292,7 +313,14 @@ const translations = {
         toast_command_error: '请输入命令',
         toast_jq_error: '应用 jq 过滤器时出错:',
         language: '语言',
-        select_language: '选择语言'
+        select_language: '选择语言',
+        
+        // Donation Section
+        donation_title: '帮助维护此项目',
+        donation_subtitle: '喜欢这个手册吗？考虑通过闪电网络捐赠一些聪来买杯咖啡 ☕',
+        donation_scan: '使用您的闪电钱包扫描:',
+        donation_note: '或复制上面的 LNURL 并在您首选的闪电钱包中使用',
+        donation_copied: 'LNURL 已复制！'
     },
     
     'ja': {
@@ -360,7 +388,14 @@ const translations = {
         toast_command_error: 'コマンドを入力してください',
         toast_jq_error: 'jq フィルターの適用エラー:',
         language: '言語',
-        select_language: '言語を選択'
+        select_language: '言語を選択',
+        
+        // Donation Section
+        donation_title: 'このプロジェクトを維持するのを手伝ってください',
+        donation_subtitle: 'マニュアルを気に入りましたか？コーヒー ☕ のためにライトニングネットワーク経由でサットを寄付することを検討してください',
+        donation_scan: 'ライトニングウォレットでスキャン:',
+        donation_note: 'または上記の LNURL をコピーして、お好みのライトニングウォレットで使用してください',
+        donation_copied: 'LNURL がコピーされました！'
     },
     
     'ru': {
@@ -428,7 +463,14 @@ const translations = {
         toast_command_error: 'Пожалуйста, введите команду',
         toast_jq_error: 'Ошибка применения фильтра jq:',
         language: 'Язык',
-        select_language: 'Выбрать язык'
+        select_language: 'Выбрать язык',
+        
+        // Donation Section
+        donation_title: 'Помогите поддерживать этот проект',
+        donation_subtitle: 'Понравилось руководство? Подумайте о пожертвовании нескольких сатов через Lightning Network на кофе ☕',
+        donation_scan: 'Отсканируйте своим Lightning кошельком:',
+        donation_note: 'Или скопируйте LNURL выше и используйте его в вашем предпочитаемом Lightning кошельке',
+        donation_copied: 'LNURL скопирован!'
     }
 };
 
