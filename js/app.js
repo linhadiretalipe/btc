@@ -348,11 +348,20 @@ function executeCommand() {
         }
     }
     
-    // Display command and response
-    displayTerminalOutput(command, filter, filteredResponse);
+    // Show success message
+    showToast(t('toast_command_success'), 'success');
     
-    // Scroll to bottom
-    terminalOutput.scrollTop = terminalOutput.scrollHeight;
+    // Display command and response
+    const commandElement = displayTerminalOutput(command, filter, filteredResponse, commandData);
+    
+    // Scroll to command execution smoothly
+    setTimeout(() => {
+        if (commandElement) {
+            commandElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+            terminalOutput.scrollTop = terminalOutput.scrollHeight;
+        }
+    }, 100);
 }
 
 function findCommand(commandName) {
@@ -496,12 +505,13 @@ function applyJqFilter(data, filter) {
     }
 }
 
-function displayTerminalOutput(command, filter, response) {
+function displayTerminalOutput(command, filter, response, commandData) {
     const terminalOutput = document.getElementById('terminalOutput');
     const time = new Date().toLocaleTimeString('pt-BR');
     
     const commandDiv = document.createElement('div');
     commandDiv.className = 'terminal-command';
+    commandDiv.id = 'cmd-' + Date.now(); // Unique ID for scrolling
     
     const timeDiv = document.createElement('div');
     timeDiv.className = 'command-time';
@@ -525,7 +535,175 @@ function displayTerminalOutput(command, filter, response) {
     commandDiv.appendChild(commandLine);
     commandDiv.appendChild(jsonOutput);
     
+    // Add field explanations if available and response is an object
+    if (commandData && commandData.responseFields && typeof response === 'object' && response !== null && !Array.isArray(response) && !response.error) {
+        const fieldsExplanation = createFieldsExplanation(response, commandData.responseFields, filter);
+        if (fieldsExplanation) {
+            commandDiv.appendChild(fieldsExplanation);
+        }
+    }
+    
     terminalOutput.appendChild(commandDiv);
+    
+    return commandDiv;
+}
+
+// Create fields explanation section
+function createFieldsExplanation(response, responseFields, filter) {
+    // If filter is applied, we need to explain the filtered result
+    // For simplicity, we'll explain the original response fields
+    if (!responseFields || Object.keys(responseFields).length === 0) {
+        return null;
+    }
+    
+    const explanationDiv = document.createElement('div');
+    explanationDiv.className = 'response-fields-explanation';
+    
+    const explanationTitle = document.createElement('div');
+    explanationTitle.className = 'explanation-title';
+    explanationTitle.innerHTML = `<i class="fas fa-graduation-cap"></i> <strong>${t('response_fields_title')}</strong>`;
+    
+    const fieldsList = document.createElement('div');
+    fieldsList.className = 'response-fields-list';
+    
+    // Get all fields from response
+    const responseKeys = Object.keys(response);
+    
+    if (responseKeys.length === 0) {
+        return null;
+    }
+    
+    // Create explanation for each field in the response
+    responseKeys.forEach(key => {
+        const fieldValue = response[key];
+        // Try to find field info by exact key or lowercase
+        let fieldInfo = responseFields[key] || responseFields[key.toLowerCase()];
+        
+        // Also check for nested paths (e.g., "softforks.taproot")
+        if (!fieldInfo) {
+            const nestedKeys = Object.keys(responseFields).filter(k => k.includes('.'));
+            for (const nestedKey of nestedKeys) {
+                if (nestedKey.startsWith(key + '.')) {
+                    // This is a nested field, skip for now
+                    return;
+                }
+            }
+        }
+        
+        if (fieldInfo) {
+            const fieldItem = document.createElement('div');
+            fieldItem.className = 'response-field-item';
+            
+            const fieldHeader = document.createElement('div');
+            fieldHeader.className = 'response-field-header';
+            fieldHeader.innerHTML = `<code class="field-name-code">${key}</code> <span class="field-type-badge">${fieldInfo.type}</span>`;
+            
+            const fieldDescription = document.createElement('div');
+            fieldDescription.className = 'response-field-description';
+            fieldDescription.textContent = fieldInfo.description;
+            
+            const fieldValueDisplay = document.createElement('div');
+            fieldValueDisplay.className = 'response-field-value';
+            const formattedValue = escapeHtml(formatFieldValue(fieldValue));
+            fieldValueDisplay.innerHTML = `<strong>${t('response_field_value')}:</strong> <code>${formattedValue}</code>`;
+            
+            fieldItem.appendChild(fieldHeader);
+            fieldItem.appendChild(fieldDescription);
+            fieldItem.appendChild(fieldValueDisplay);
+            
+            fieldsList.appendChild(fieldItem);
+        } else {
+            // Field exists in response but not documented
+            const fieldItem = document.createElement('div');
+            fieldItem.className = 'response-field-item undocumented';
+            
+            const fieldHeader = document.createElement('div');
+            fieldHeader.className = 'response-field-header';
+            const fieldType = Array.isArray(fieldValue) ? 'array' : typeof fieldValue;
+            fieldHeader.innerHTML = `<code class="field-name-code">${key}</code> <span class="field-type-badge">${fieldType}</span>`;
+            
+            const fieldValueDisplay = document.createElement('div');
+            fieldValueDisplay.className = 'response-field-value';
+            const formattedValue = escapeHtml(formatFieldValue(fieldValue));
+            fieldValueDisplay.innerHTML = `<strong>${t('response_field_value')}:</strong> <code>${formattedValue}</code>`;
+            
+            fieldItem.appendChild(fieldHeader);
+            fieldItem.appendChild(fieldValueDisplay);
+            
+            fieldsList.appendChild(fieldItem);
+        }
+    });
+    
+    if (fieldsList.children.length === 0) {
+        return null;
+    }
+    
+    explanationDiv.appendChild(explanationTitle);
+    explanationDiv.appendChild(fieldsList);
+    
+    return explanationDiv;
+}
+
+// Escape HTML to prevent XSS
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+// Format field value for display
+function formatFieldValue(value) {
+    if (value === null) return 'null';
+    if (value === undefined) return 'undefined';
+    if (typeof value === 'string') {
+        if (value.length > 60) {
+            return value.substring(0, 60) + '...';
+        }
+        return value;
+    }
+    if (typeof value === 'object') {
+        if (Array.isArray(value)) {
+            const lang = getCurrentLanguage();
+            const arrayText = lang === 'pt-BR' ? 'Array com' : 
+                             lang === 'en' ? 'Array with' :
+                             lang === 'es' ? 'Array con' :
+                             lang === 'zh' ? '数组包含' :
+                             lang === 'ja' ? '配列' :
+                             lang === 'ru' ? 'Массив с' : 'Array com';
+            const itemsText = lang === 'pt-BR' ? 'item(s)' :
+                             lang === 'en' ? 'item(s)' :
+                             lang === 'es' ? 'elemento(s)' :
+                             lang === 'zh' ? '项' :
+                             lang === 'ja' ? '項目' :
+                             lang === 'ru' ? 'элемент(ов)' : 'item(s)';
+            return `[${arrayText} ${value.length} ${itemsText}]`;
+        }
+        const lang = getCurrentLanguage();
+        const objectText = lang === 'pt-BR' ? 'Object com' :
+                          lang === 'en' ? 'Object with' :
+                          lang === 'es' ? 'Objeto con' :
+                          lang === 'zh' ? '对象包含' :
+                          lang === 'ja' ? 'オブジェクト' :
+                          lang === 'ru' ? 'Объект с' : 'Object com';
+        const fieldsText = lang === 'pt-BR' ? 'campo(s)' :
+                          lang === 'en' ? 'field(s)' :
+                          lang === 'es' ? 'campo(s)' :
+                          lang === 'zh' ? '字段' :
+                          lang === 'ja' ? 'フィールド' :
+                          lang === 'ru' ? 'полей' : 'campo(s)';
+        return `{${objectText} ${Object.keys(value).length} ${fieldsText}}`;
+    }
+    if (typeof value === 'boolean') {
+        return value ? 'true' : 'false';
+    }
+    if (typeof value === 'number') {
+        // Format large numbers
+        if (value > 1000000) {
+            return value.toLocaleString();
+        }
+        return String(value);
+    }
+    return String(value);
 }
 
 function highlightJSON(element) {

@@ -84,10 +84,15 @@ const translations = {
         // Toast Messages
         toast_command_found: 'Comando encontrado na aba:',
         toast_command_error: 'Por favor, digite um comando',
+        toast_command_success: 'Comando executado com sucesso!',
         toast_command_not_found: 'Comando "{command}" não encontrado. Verifique a ortografia ou consulte a aba Referência.',
         toast_not_bitcoin_cli: 'Este não é um comando bitcoin-cli. Use comandos do Bitcoin Core RPC.',
         toast_missing_parameters: 'Parâmetros obrigatórios faltando. Verifique o exemplo abaixo.',
         toast_jq_error: 'Erro ao aplicar filtro jq:',
+        
+        // Response Fields
+        response_fields_title: 'Explicação dos Campos da Resposta',
+        response_field_value: 'Valor',
         
         // Error Messages
         error_not_bitcoin_cli: 'Erro: Este não é um comando bitcoin-cli válido. Use comandos do Bitcoin Core RPC. Consulte a aba Referência para ver todos os comandos disponíveis.',
@@ -170,10 +175,15 @@ const translations = {
         jq_guide_length: 'Size of array/object',
         toast_command_found: 'Command found in tab:',
         toast_command_error: 'Please enter a command',
+        toast_command_success: 'Command executed successfully!',
         toast_command_not_found: 'Command "{command}" not found. Check spelling or see the Reference tab.',
         toast_not_bitcoin_cli: 'This is not a bitcoin-cli command. Use Bitcoin Core RPC commands.',
         toast_missing_parameters: 'Missing required parameters. Check the example below.',
         toast_jq_error: 'Error applying jq filter:',
+        
+        // Response Fields
+        response_fields_title: 'Response Fields Explanation',
+        response_field_value: 'Value',
         
         // Error Messages
         error_not_bitcoin_cli: 'Error: This is not a valid bitcoin-cli command. Use Bitcoin Core RPC commands. Check the Reference tab to see all available commands.',
@@ -254,10 +264,15 @@ const translations = {
         jq_guide_length: 'Tamaño de array/objeto',
         toast_command_found: 'Comando encontrado en la pestaña:',
         toast_command_error: 'Por favor, ingrese un comando',
+        toast_command_success: '¡Comando ejecutado con éxito!',
         toast_command_not_found: 'Comando "{command}" no encontrado. Verifique la ortografía o consulte la pestaña Referencia.',
         toast_not_bitcoin_cli: 'Este no es un comando bitcoin-cli. Use comandos de Bitcoin Core RPC.',
         toast_missing_parameters: 'Faltan parámetros obligatorios. Verifique el ejemplo a continuación.',
         toast_jq_error: 'Error al aplicar filtro jq:',
+        
+        // Response Fields
+        response_fields_title: 'Explicación de los Campos de la Respuesta',
+        response_field_value: 'Valor',
         
         // Error Messages
         error_not_bitcoin_cli: 'Error: Este no es un comando bitcoin-cli válido. Use comandos de Bitcoin Core RPC. Consulte la pestaña Referencia para ver todos los comandos disponibles.',
@@ -338,10 +353,15 @@ const translations = {
         jq_guide_length: '数组/对象大小',
         toast_command_found: '在标签中找到命令:',
         toast_command_error: '请输入命令',
+        toast_command_success: '命令执行成功！',
         toast_command_not_found: '未找到命令 "{command}"。请检查拼写或查看参考标签。',
         toast_not_bitcoin_cli: '这不是 bitcoin-cli 命令。请使用 Bitcoin Core RPC 命令。',
         toast_missing_parameters: '缺少必需参数。请查看下面的示例。',
         toast_jq_error: '应用 jq 过滤器时出错:',
+        
+        // Response Fields
+        response_fields_title: '响应字段说明',
+        response_field_value: '值',
         
         // Error Messages
         error_not_bitcoin_cli: '错误：这不是有效的 bitcoin-cli 命令。请使用 Bitcoin Core RPC 命令。查看参考标签以查看所有可用命令。',
@@ -422,10 +442,15 @@ const translations = {
         jq_guide_length: '配列/オブジェクトのサイズ',
         toast_command_found: 'タブでコマンドが見つかりました:',
         toast_command_error: 'コマンドを入力してください',
+        toast_command_success: 'コマンドが正常に実行されました！',
         toast_command_not_found: 'コマンド "{command}" が見つかりません。スペルを確認するか、リファレンスタブを参照してください。',
         toast_not_bitcoin_cli: 'これは bitcoin-cli コマンドではありません。Bitcoin Core RPC コマンドを使用してください。',
         toast_missing_parameters: '必須パラメータが不足しています。以下の例を確認してください。',
         toast_jq_error: 'jq フィルターの適用エラー:',
+        
+        // Response Fields
+        response_fields_title: 'レスポンスフィールドの説明',
+        response_field_value: '値',
         
         // Error Messages
         error_not_bitcoin_cli: 'エラー：これは有効な bitcoin-cli コマンドではありません。Bitcoin Core RPC コマンドを使用してください。リファレンスタブを確認して、すべての利用可能なコマンドを表示してください。',
@@ -506,10 +531,15 @@ const translations = {
         jq_guide_length: 'Размер массива/объекта',
         toast_command_found: 'Команда найдена во вкладке:',
         toast_command_error: 'Пожалуйста, введите команду',
+        toast_command_success: 'Команда успешно выполнена!',
         toast_command_not_found: 'Команда "{command}" не найдена. Проверьте правописание или обратитесь к вкладке Справочник.',
         toast_not_bitcoin_cli: 'Это не команда bitcoin-cli. Используйте команды Bitcoin Core RPC.',
         toast_missing_parameters: 'Отсутствуют обязательные параметры. Проверьте пример ниже.',
         toast_jq_error: 'Ошибка применения фильтра jq:',
+        
+        // Response Fields
+        response_fields_title: 'Объяснение полей ответа',
+        response_field_value: 'Значение',
         
         // Error Messages
         error_not_bitcoin_cli: 'Ошибка: Это не действительная команда bitcoin-cli. Используйте команды Bitcoin Core RPC. Проверьте вкладку Справочник, чтобы увидеть все доступные команды.',
