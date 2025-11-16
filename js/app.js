@@ -284,14 +284,56 @@ function executeCommand() {
     
     clearHistoryBtn.style.display = 'block';
     
+    // Extract command name (remove bitcoin-cli prefix if present and get first word)
+    const commandParts = command.replace(/^bitcoin-cli\s+/, '').split(/\s+/);
+    const commandName = commandParts[0].toLowerCase().trim();
+    
+    // Check if it's a bitcoin-cli command (starts with bitcoin-cli or is a known command)
+    const isBitcoinCliCommand = command.toLowerCase().startsWith('bitcoin-cli') || 
+                                 commandCategoryMap.hasOwnProperty(commandName);
+    
+    if (!isBitcoinCliCommand) {
+        // Not a bitcoin-cli command
+        displayCommandError(command, t('error_not_bitcoin_cli'), null);
+        showToast(t('toast_not_bitcoin_cli'), 'error');
+        return;
+    }
+    
     // Find command data
-    const commandData = findCommand(command);
+    const commandData = findCommand(commandName);
+    
+    if (!commandData) {
+        // Command doesn't exist
+        displayCommandError(command, t('error_command_not_found').replace('{command}', commandName), null);
+        showToast(t('toast_command_not_found').replace('{command}', commandName), 'error');
+        return;
+    }
+    
+    // Validate parameters if command has required parameters
+    if (commandData.parameters && commandData.parameters.length > 0) {
+        const requiredParams = commandData.parameters.filter(p => p.required);
+        const providedArgs = commandParts.slice(1);
+        
+        // Basic parameter validation
+        if (requiredParams.length > 0 && providedArgs.length < requiredParams.length) {
+            const missingParams = requiredParams.slice(providedArgs.length);
+            const errorMsg = t('error_missing_parameters')
+                .replace('{command}', commandName)
+                .replace('{params}', missingParams.map(p => p.name).join(', '));
+            const example = commandData.example ? commandData.example.command : commandData.syntax;
+            displayCommandError(command, errorMsg, example);
+            showToast(t('toast_missing_parameters'), 'error');
+            return;
+        }
+    }
+    
+    // Get response from command data
     let response = null;
     
     if (commandData && commandData.example) {
         response = commandData.example.response;
     } else {
-        // Generate mock response for unknown commands
+        // Generate mock response for commands without example
         response = generateMockResponse(command);
     }
     
@@ -772,6 +814,49 @@ function setupDonation() {
             });
         });
     }
+}
+
+// Display command error in terminal
+function displayCommandError(command, errorMessage, exampleCommand) {
+    const terminalOutput = document.getElementById('terminalOutput');
+    const clearHistoryBtn = document.getElementById('clearHistory');
+    
+    if (terminalOutput.querySelector('.terminal-empty')) {
+        terminalOutput.innerHTML = '';
+    }
+    clearHistoryBtn.style.display = 'block';
+    
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'terminal-command terminal-error';
+    
+    const timeDiv = document.createElement('div');
+    timeDiv.className = 'command-time';
+    timeDiv.textContent = new Date().toLocaleTimeString('pt-BR');
+    
+    const commandLine = document.createElement('div');
+    commandLine.className = 'command-line';
+    commandLine.innerHTML = `<span class="command-prompt">$</span> bitcoin-cli ${command}`;
+    
+    const errorOutput = document.createElement('div');
+    errorOutput.className = 'json-output error-output';
+    
+    let errorContent = `<div class="error-message">${errorMessage}</div>`;
+    
+    if (exampleCommand) {
+        errorContent += `<div class="error-example">
+            <strong>${t('error_example_label')}:</strong>
+            <code class="example-code">${exampleCommand}</code>
+        </div>`;
+    }
+    
+    errorOutput.innerHTML = errorContent;
+    
+    errorDiv.appendChild(timeDiv);
+    errorDiv.appendChild(commandLine);
+    errorDiv.appendChild(errorOutput);
+    
+    terminalOutput.appendChild(errorDiv);
+    terminalOutput.scrollTop = terminalOutput.scrollHeight;
 }
 
 // Toast Notification

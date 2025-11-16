@@ -84,7 +84,16 @@ const translations = {
         // Toast Messages
         toast_command_found: 'Comando encontrado na aba:',
         toast_command_error: 'Por favor, digite um comando',
+        toast_command_not_found: 'Comando "{command}" não encontrado. Verifique a ortografia ou consulte a aba Referência.',
+        toast_not_bitcoin_cli: 'Este não é um comando bitcoin-cli. Use comandos do Bitcoin Core RPC.',
+        toast_missing_parameters: 'Parâmetros obrigatórios faltando. Verifique o exemplo abaixo.',
         toast_jq_error: 'Erro ao aplicar filtro jq:',
+        
+        // Error Messages
+        error_not_bitcoin_cli: 'Erro: Este não é um comando bitcoin-cli válido. Use comandos do Bitcoin Core RPC. Consulte a aba Referência para ver todos os comandos disponíveis.',
+        error_command_not_found: 'Erro: Comando "{command}" não existe. Use "bitcoin-cli help" para ver todos os comandos disponíveis ou consulte a aba Referência.',
+        error_missing_parameters: 'Erro: Comando "{command}" requer os seguintes parâmetros obrigatórios: {params}.',
+        error_example_label: 'Exemplo de uso correto',
         
         // Language Selector
         language: 'Idioma',
@@ -161,7 +170,16 @@ const translations = {
         jq_guide_length: 'Size of array/object',
         toast_command_found: 'Command found in tab:',
         toast_command_error: 'Please enter a command',
+        toast_command_not_found: 'Command "{command}" not found. Check spelling or see the Reference tab.',
+        toast_not_bitcoin_cli: 'This is not a bitcoin-cli command. Use Bitcoin Core RPC commands.',
+        toast_missing_parameters: 'Missing required parameters. Check the example below.',
         toast_jq_error: 'Error applying jq filter:',
+        
+        // Error Messages
+        error_not_bitcoin_cli: 'Error: This is not a valid bitcoin-cli command. Use Bitcoin Core RPC commands. Check the Reference tab to see all available commands.',
+        error_command_not_found: 'Error: Command "{command}" does not exist. Use "bitcoin-cli help" to see all available commands or check the Reference tab.',
+        error_missing_parameters: 'Error: Command "{command}" requires the following required parameters: {params}.',
+        error_example_label: 'Correct usage example',
         language: 'Language',
         select_language: 'Select Language',
         
@@ -236,7 +254,16 @@ const translations = {
         jq_guide_length: 'Tamaño de array/objeto',
         toast_command_found: 'Comando encontrado en la pestaña:',
         toast_command_error: 'Por favor, ingrese un comando',
+        toast_command_not_found: 'Comando "{command}" no encontrado. Verifique la ortografía o consulte la pestaña Referencia.',
+        toast_not_bitcoin_cli: 'Este no es un comando bitcoin-cli. Use comandos de Bitcoin Core RPC.',
+        toast_missing_parameters: 'Faltan parámetros obligatorios. Verifique el ejemplo a continuación.',
         toast_jq_error: 'Error al aplicar filtro jq:',
+        
+        // Error Messages
+        error_not_bitcoin_cli: 'Error: Este no es un comando bitcoin-cli válido. Use comandos de Bitcoin Core RPC. Consulte la pestaña Referencia para ver todos los comandos disponibles.',
+        error_command_not_found: 'Error: El comando "{command}" no existe. Use "bitcoin-cli help" para ver todos los comandos disponibles o consulte la pestaña Referencia.',
+        error_missing_parameters: 'Error: El comando "{command}" requiere los siguientes parámetros obligatorios: {params}.',
+        error_example_label: 'Ejemplo de uso correcto',
         language: 'Idioma',
         select_language: 'Seleccionar Idioma',
         
@@ -311,7 +338,16 @@ const translations = {
         jq_guide_length: '数组/对象大小',
         toast_command_found: '在标签中找到命令:',
         toast_command_error: '请输入命令',
+        toast_command_not_found: '未找到命令 "{command}"。请检查拼写或查看参考标签。',
+        toast_not_bitcoin_cli: '这不是 bitcoin-cli 命令。请使用 Bitcoin Core RPC 命令。',
+        toast_missing_parameters: '缺少必需参数。请查看下面的示例。',
         toast_jq_error: '应用 jq 过滤器时出错:',
+        
+        // Error Messages
+        error_not_bitcoin_cli: '错误：这不是有效的 bitcoin-cli 命令。请使用 Bitcoin Core RPC 命令。查看参考标签以查看所有可用命令。',
+        error_command_not_found: '错误：命令 "{command}" 不存在。使用 "bitcoin-cli help" 查看所有可用命令或查看参考标签。',
+        error_missing_parameters: '错误：命令 "{command}" 需要以下必需参数：{params}。',
+        error_example_label: '正确使用示例',
         language: '语言',
         select_language: '选择语言',
         
@@ -386,7 +422,16 @@ const translations = {
         jq_guide_length: '配列/オブジェクトのサイズ',
         toast_command_found: 'タブでコマンドが見つかりました:',
         toast_command_error: 'コマンドを入力してください',
+        toast_command_not_found: 'コマンド "{command}" が見つかりません。スペルを確認するか、リファレンスタブを参照してください。',
+        toast_not_bitcoin_cli: 'これは bitcoin-cli コマンドではありません。Bitcoin Core RPC コマンドを使用してください。',
+        toast_missing_parameters: '必須パラメータが不足しています。以下の例を確認してください。',
         toast_jq_error: 'jq フィルターの適用エラー:',
+        
+        // Error Messages
+        error_not_bitcoin_cli: 'エラー：これは有効な bitcoin-cli コマンドではありません。Bitcoin Core RPC コマンドを使用してください。リファレンスタブを確認して、すべての利用可能なコマンドを表示してください。',
+        error_command_not_found: 'エラー：コマンド "{command}" は存在しません。"bitcoin-cli help" を使用してすべての利用可能なコマンドを表示するか、リファレンスタブを確認してください。',
+        error_missing_parameters: 'エラー：コマンド "{command}" には次の必須パラメータが必要です：{params}。',
+        error_example_label: '正しい使用例',
         language: '言語',
         select_language: '言語を選択',
         
@@ -461,7 +506,16 @@ const translations = {
         jq_guide_length: 'Размер массива/объекта',
         toast_command_found: 'Команда найдена во вкладке:',
         toast_command_error: 'Пожалуйста, введите команду',
+        toast_command_not_found: 'Команда "{command}" не найдена. Проверьте правописание или обратитесь к вкладке Справочник.',
+        toast_not_bitcoin_cli: 'Это не команда bitcoin-cli. Используйте команды Bitcoin Core RPC.',
+        toast_missing_parameters: 'Отсутствуют обязательные параметры. Проверьте пример ниже.',
         toast_jq_error: 'Ошибка применения фильтра jq:',
+        
+        // Error Messages
+        error_not_bitcoin_cli: 'Ошибка: Это не действительная команда bitcoin-cli. Используйте команды Bitcoin Core RPC. Проверьте вкладку Справочник, чтобы увидеть все доступные команды.',
+        error_command_not_found: 'Ошибка: Команда "{command}" не существует. Используйте "bitcoin-cli help" для просмотра всех доступных команд или проверьте вкладку Справочник.',
+        error_missing_parameters: 'Ошибка: Команда "{command}" требует следующие обязательные параметры: {params}.',
+        error_example_label: 'Пример правильного использования',
         language: 'Язык',
         select_language: 'Выбрать язык',
         
