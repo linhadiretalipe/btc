@@ -299,6 +299,14 @@ function executeCommand() {
         return;
     }
     
+    // Check if command is blocked/restricted
+    if (isCommandBlocked(commandName)) {
+        const blockedReason = getBlockedCommandReason(commandName);
+        displayCommandError(command, blockedReason, null);
+        showToast(t('toast_command_blocked').replace('{command}', commandName), 'error');
+        return;
+    }
+    
     // Find command data
     const commandData = findCommand(commandName);
     
@@ -362,6 +370,52 @@ function executeCommand() {
             terminalOutput.scrollTop = terminalOutput.scrollHeight;
         }
     }, 100);
+}
+
+// Blocked commands list - commands that should not be executed
+const blockedCommands = {
+    'stop': {
+        reason: 'error_blocked_stop',
+        description: 'Comando bloqueado: Este comando para o servidor Bitcoin e não pode ser executado no terminal interativo.'
+    },
+    'encryptwallet': {
+        reason: 'error_blocked_destructive',
+        description: 'Comando bloqueado: Este comando modifica permanentemente a carteira e não pode ser executado no terminal interativo.'
+    },
+    'walletpassphrase': {
+        reason: 'error_blocked_destructive',
+        description: 'Comando bloqueado: Este comando modifica a segurança da carteira e não pode ser executado no terminal interativo.'
+    },
+    'walletpassphrasechange': {
+        reason: 'error_blocked_destructive',
+        description: 'Comando bloqueado: Este comando altera a senha da carteira e não pode ser executado no terminal interativo.'
+    },
+    'walletlock': {
+        reason: 'error_blocked_destructive',
+        description: 'Comando bloqueado: Este comando bloqueia a carteira e não pode ser executado no terminal interativo.'
+    },
+    'importprivkey': {
+        reason: 'error_blocked_destructive',
+        description: 'Comando bloqueado: Este comando importa chaves privadas e não pode ser executado no terminal interativo.'
+    },
+    'dumpprivkey': {
+        reason: 'error_blocked_security',
+        description: 'Comando bloqueado: Este comando expõe chaves privadas e não pode ser executado no terminal interativo por questões de segurança.'
+    }
+};
+
+// Check if command is blocked
+function isCommandBlocked(commandName) {
+    return blockedCommands.hasOwnProperty(commandName.toLowerCase());
+}
+
+// Get blocked command reason
+function getBlockedCommandReason(commandName) {
+    const blocked = blockedCommands[commandName.toLowerCase()];
+    if (blocked) {
+        return t(blocked.reason).replace('{command}', commandName);
+    }
+    return t('error_blocked_generic').replace('{command}', commandName);
 }
 
 function findCommand(commandName) {

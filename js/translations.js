@@ -100,6 +100,13 @@ const translations = {
         error_missing_parameters: 'Erro: Comando "{command}" requer os seguintes parâmetros obrigatórios: {params}.',
         error_example_label: 'Exemplo de uso correto',
         
+        // Blocked Commands
+        toast_command_blocked: 'Comando "{command}" está bloqueado e não pode ser executado.',
+        error_blocked_stop: 'Erro: O comando "{command}" não pode ser executado no terminal interativo. Este comando para o servidor Bitcoin e é destrutivo. Use apenas para fins de referência e documentação.',
+        error_blocked_destructive: 'Erro: O comando "{command}" não pode ser executado no terminal interativo. Este comando modifica permanentemente a carteira ou configurações e é destrutivo. Use apenas para fins de referência e documentação.',
+        error_blocked_security: 'Erro: O comando "{command}" não pode ser executado no terminal interativo. Este comando expõe informações sensíveis (como chaves privadas) e representa risco de segurança. Use apenas para fins de referência e documentação.',
+        error_blocked_generic: 'Erro: O comando "{command}" está bloqueado e não pode ser executado no terminal interativo por questões de segurança ou porque é destrutivo.',
+        
         // Language Selector
         language: 'Idioma',
         select_language: 'Selecionar Idioma',
@@ -190,6 +197,13 @@ const translations = {
         error_command_not_found: 'Error: Command "{command}" does not exist. Use "bitcoin-cli help" to see all available commands or check the Reference tab.',
         error_missing_parameters: 'Error: Command "{command}" requires the following required parameters: {params}.',
         error_example_label: 'Correct usage example',
+        
+        // Blocked Commands
+        toast_command_blocked: 'Command "{command}" is blocked and cannot be executed.',
+        error_blocked_stop: 'Error: Command "{command}" cannot be executed in the interactive terminal. This command stops the Bitcoin server and is destructive. Use only for reference and documentation purposes.',
+        error_blocked_destructive: 'Error: Command "{command}" cannot be executed in the interactive terminal. This command permanently modifies the wallet or settings and is destructive. Use only for reference and documentation purposes.',
+        error_blocked_security: 'Error: Command "{command}" cannot be executed in the interactive terminal. This command exposes sensitive information (such as private keys) and poses a security risk. Use only for reference and documentation purposes.',
+        error_blocked_generic: 'Error: Command "{command}" is blocked and cannot be executed in the interactive terminal for security reasons or because it is destructive.',
         language: 'Language',
         select_language: 'Select Language',
         
@@ -279,6 +293,13 @@ const translations = {
         error_command_not_found: 'Error: El comando "{command}" no existe. Use "bitcoin-cli help" para ver todos los comandos disponibles o consulte la pestaña Referencia.',
         error_missing_parameters: 'Error: El comando "{command}" requiere los siguientes parámetros obligatorios: {params}.',
         error_example_label: 'Ejemplo de uso correcto',
+        
+        // Blocked Commands
+        toast_command_blocked: 'El comando "{command}" está bloqueado y no puede ser ejecutado.',
+        error_blocked_stop: 'Error: El comando "{command}" no puede ser ejecutado en el terminal interactivo. Este comando detiene el servidor Bitcoin y es destructivo. Use solo para fines de referencia y documentación.',
+        error_blocked_destructive: 'Error: El comando "{command}" no puede ser ejecutado en el terminal interactivo. Este comando modifica permanentemente la cartera o configuraciones y es destructivo. Use solo para fines de referencia y documentación.',
+        error_blocked_security: 'Error: El comando "{command}" no puede ser ejecutado en el terminal interactivo. Este comando expone información sensible (como claves privadas) y representa un riesgo de seguridad. Use solo para fines de referencia y documentación.',
+        error_blocked_generic: 'Error: El comando "{command}" está bloqueado y no puede ser ejecutado en el terminal interactivo por razones de seguridad o porque es destructivo.',
         language: 'Idioma',
         select_language: 'Seleccionar Idioma',
         
@@ -368,6 +389,13 @@ const translations = {
         error_command_not_found: '错误：命令 "{command}" 不存在。使用 "bitcoin-cli help" 查看所有可用命令或查看参考标签。',
         error_missing_parameters: '错误：命令 "{command}" 需要以下必需参数：{params}。',
         error_example_label: '正确使用示例',
+        
+        // Blocked Commands
+        toast_command_blocked: '命令 "{command}" 已被阻止，无法执行。',
+        error_blocked_stop: '错误：命令 "{command}" 无法在交互式终端中执行。此命令会停止 Bitcoin 服务器，具有破坏性。仅用于参考和文档目的。',
+        error_blocked_destructive: '错误：命令 "{command}" 无法在交互式终端中执行。此命令会永久修改钱包或设置，具有破坏性。仅用于参考和文档目的。',
+        error_blocked_security: '错误：命令 "{command}" 无法在交互式终端中执行。此命令会暴露敏感信息（如私钥），存在安全风险。仅用于参考和文档目的。',
+        error_blocked_generic: '错误：命令 "{command}" 已被阻止，无法在交互式终端中执行，原因是安全或具有破坏性。',
         language: '语言',
         select_language: '选择语言',
         
@@ -457,6 +485,13 @@ const translations = {
         error_command_not_found: 'エラー：コマンド "{command}" は存在しません。"bitcoin-cli help" を使用してすべての利用可能なコマンドを表示するか、リファレンスタブを確認してください。',
         error_missing_parameters: 'エラー：コマンド "{command}" には次の必須パラメータが必要です：{params}。',
         error_example_label: '正しい使用例',
+        
+        // Blocked Commands
+        toast_command_blocked: 'コマンド "{command}" はブロックされており、実行できません。',
+        error_blocked_stop: 'エラー：コマンド "{command}" はインタラクティブターミナルで実行できません。このコマンドは Bitcoin サーバーを停止し、破壊的です。参照およびドキュメント目的でのみ使用してください。',
+        error_blocked_destructive: 'エラー：コマンド "{command}" はインタラクティブターミナルで実行できません。このコマンドはウォレットや設定を永続的に変更し、破壊的です。参照およびドキュメント目的でのみ使用してください。',
+        error_blocked_security: 'エラー：コマンド "{command}" はインタラクティブターミナルで実行できません。このコマンドは機密情報（秘密鍵など）を公開し、セキュリティリスクがあります。参照およびドキュメント目的でのみ使用してください。',
+        error_blocked_generic: 'エラー：コマンド "{command}" はセキュリティ上の理由または破壊的であるため、インタラクティブターミナルでブロックされており、実行できません。',
         language: '言語',
         select_language: '言語を選択',
         
@@ -546,6 +581,13 @@ const translations = {
         error_command_not_found: 'Ошибка: Команда "{command}" не существует. Используйте "bitcoin-cli help" для просмотра всех доступных команд или проверьте вкладку Справочник.',
         error_missing_parameters: 'Ошибка: Команда "{command}" требует следующие обязательные параметры: {params}.',
         error_example_label: 'Пример правильного использования',
+        
+        // Blocked Commands
+        toast_command_blocked: 'Команда "{command}" заблокирована и не может быть выполнена.',
+        error_blocked_stop: 'Ошибка: Команда "{command}" не может быть выполнена в интерактивном терминале. Эта команда останавливает сервер Bitcoin и является разрушительной. Используйте только в справочных и документационных целях.',
+        error_blocked_destructive: 'Ошибка: Команда "{command}" не может быть выполнена в интерактивном терминале. Эта команда навсегда изменяет кошелек или настройки и является разрушительной. Используйте только в справочных и документационных целях.',
+        error_blocked_security: 'Ошибка: Команда "{command}" не может быть выполнена в интерактивном терминале. Эта команда раскрывает конфиденциальную информацию (например, приватные ключи) и представляет угрозу безопасности. Используйте только в справочных и документационных целях.',
+        error_blocked_generic: 'Ошибка: Команда "{command}" заблокирована и не может быть выполнена в интерактивном терминале по соображениям безопасности или потому что она разрушительна.',
         language: 'Язык',
         select_language: 'Выбрать язык',
         
